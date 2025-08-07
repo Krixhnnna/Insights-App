@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'professional_dashboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,7 +20,123 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: ReelInsightsPage(),
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0D0F14),
+      body: SafeArea(
+        child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // App Title
+                Text(
+                  'Insights',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'SF Pro Display',
+                  ),
+                ),
+                const SizedBox(height: 40),
+
+                // Reel Insights Option
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ReelInsightsPage(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF2E3337),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Reel Insights',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'SF Pro Display',
+                          ),
+                        ),
+                        Icon(
+                          Icons.chevron_right,
+                          color: Colors.grey[400],
+                          size: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                // Professional Dashboard Option
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfessionalDashboardPage(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF2E3337),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Professional Dashboard',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'SF Pro Display',
+                          ),
+                        ),
+                        Icon(
+                          Icons.chevron_right,
+                          color: Colors.grey[400],
+                          size: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
     );
   }
 }
@@ -37,6 +154,7 @@ class _ReelInsightsPageState extends State<ReelInsightsPage> {
   String? reelThumbnailUrl;
   String? reelCaption; // 'Gender', 'Country', 'Age'
   DateTime? lastTapTime;
+  bool isLoading = false;
 
   // Editable text controllers
   final TextEditingController reelTitleController = TextEditingController(
@@ -329,19 +447,38 @@ class _ReelInsightsPageState extends State<ReelInsightsPage> {
 
   void _setDemoData() {
     setState(() {
-      // Set demo data
+      // Set demo data with real date (2 days ago)
+      final now = DateTime.now();
+      final twoDaysAgo = now.subtract(Duration(days: 2));
+      final monthNames = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ];
+      final dateString =
+          '${twoDaysAgo.day} ${monthNames[twoDaysAgo.month - 1]} · Duration 0:33';
+
       reelTitleController.text = 'Dream Came True 💀...';
-      reelDateController.text = '30 July · Duration 0:33';
-      likesController.text = '63';
+      reelDateController.text = dateString;
+      likesController.text = '84';
       commentsController.text = '2';
-      sharesController.text = '3';
-      savesController.text = '3';
-      viewsController.text = '3,003';
+      sharesController.text = '13';
+      savesController.text = '2';
+      viewsController.text = '3,071';
       followersPercentController.text = '21.4%';
       nonFollowersPercentController.text = '78.6%';
-      watchTimeController.text = '3h 37m 34s';
-      interactionsController.text = '71';
-      profileActivityController.text = '1';
+      watchTimeController.text = '3h 44m 38s';
+      interactionsController.text = '101';
+      profileActivityController.text = '3';
       profileController.text = '1.4%';
       reelsTabController.text = '0.6%';
       exploreController.text = '0.2%';
@@ -354,13 +491,13 @@ class _ReelInsightsPageState extends State<ReelInsightsPage> {
       impressionsFromHomeController.text = '2,123';
       impressionsFromHashtagsController.text = '1,456';
       impressionsFromProfileController.text = '942';
-      totalSavesController.text = '3';
-      savesFromHomeController.text = '2';
+      totalSavesController.text = '2';
+      savesFromHomeController.text = '1';
       savesFromHashtagsController.text = '1';
       savesFromProfileController.text = '0';
       viewRateController.text = '98.7%';
       typicalViewRateController.text = '--';
-      watchTimeController2.text = '3h 37m 42s';
+      watchTimeController2.text = '3h 44m 38s';
       averageWatchTimeController.text = '20 sec';
       overviewTitleController.text = 'Overview';
       viewsTitleController.text = 'Views';
@@ -381,7 +518,7 @@ class _ReelInsightsPageState extends State<ReelInsightsPage> {
       countryCanadaController.text = '15.6%';
       countryAustraliaController.text = '8.4%';
       countryGermanyController.text = '5.0%';
-      totalInteractionsController.text = '71 Interactions';
+      totalInteractionsController.text = '101 Interactions';
       interactionsFollowersPercentController.text = '5.7%';
       interactionsNonFollowersPercentController.text = '94.3%';
       followsController.text = 'Follows: 1';
@@ -400,12 +537,23 @@ class _ReelInsightsPageState extends State<ReelInsightsPage> {
     await prefs.remove('reelCaption');
   }
 
+  Future<void> _clearAllSavedData() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // This will clear all saved data
+  }
+
+  String _extractDuration(String dateText) {
+    // Extract duration from text like "15 December · Duration 0:33"
+    final durationMatch = RegExp(r'Duration (\d+:\d+)').firstMatch(dateText);
+    return durationMatch?.group(1) ?? '0:33';
+  }
+
   void _handleReelInsightsTap() {
     final now = DateTime.now();
     if (lastTapTime != null &&
         now.difference(lastTapTime!).inMilliseconds < 500) {
-      // Double tap detected - reset to viral demo data
-      _resetToViralDemoData();
+      // Double tap detected - reset to 3k views demo data
+      _setDemoData();
       lastTapTime = null;
     } else {
       lastTapTime = now;
@@ -514,117 +662,25 @@ class _ReelInsightsPageState extends State<ReelInsightsPage> {
   Future<void> _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // Check if this is the first time opening the app
-    final isFirstTime = prefs.getBool('isFirstTime') ?? true;
+    // Force use new demo data by clearing old saved data
+    await _clearAllSavedData();
 
-    if (isFirstTime) {
-      // Set demo data for first time
-      _setDemoData();
-      // Mark as not first time anymore
-      await prefs.setBool('isFirstTime', false);
-    } else {
-      // Load saved data or use default demo data
-      reelTitleController.text =
-          prefs.getString('reelTitle') ?? 'Dream Came True 💀...';
-      reelDateController.text =
-          prefs.getString('reelDate') ?? '30 July · Duration 0:33';
-      likesController.text = prefs.getString('likes') ?? '63';
-      commentsController.text = prefs.getString('comments') ?? '2';
-      sharesController.text = prefs.getString('shares') ?? '3';
-      savesController.text = prefs.getString('saves') ?? '3';
-      viewsController.text = prefs.getString('views') ?? '3,003';
-      followersPercentController.text =
-          prefs.getString('followersPercent') ?? '21.4%';
-      nonFollowersPercentController.text =
-          prefs.getString('nonFollowersPercent') ?? '78.6%';
-      watchTimeController.text = prefs.getString('watchTime') ?? '3h 37m 34s';
-      interactionsController.text = prefs.getString('interactions') ?? '71';
-      profileActivityController.text =
-          prefs.getString('profileActivity') ?? '1';
-      profileController.text = prefs.getString('profile') ?? '1.4%';
-      reelsTabController.text = prefs.getString('reelsTab') ?? '0.6%';
-      exploreController.text = prefs.getString('explore') ?? '0.2%';
-      feedController.text = prefs.getString('feed') ?? '0.2%';
-      accountsReachedController.text =
-          prefs.getString('accountsReached') ?? '2,847';
-      fromHomeController.text = prefs.getString('fromHome') ?? '1,234';
-      fromHashtagsController.text = prefs.getString('fromHashtags') ?? '567';
-      fromProfileController.text = prefs.getString('fromProfile') ?? '89';
-      totalImpressionsController.text =
-          prefs.getString('totalImpressions') ?? '4,521';
-      impressionsFromHomeController.text =
-          prefs.getString('impressionsFromHome') ?? '2,123';
-      impressionsFromHashtagsController.text =
-          prefs.getString('impressionsFromHashtags') ?? '1,456';
-      impressionsFromProfileController.text =
-          prefs.getString('impressionsFromProfile') ?? '942';
-      totalSavesController.text = prefs.getString('totalSaves') ?? '3';
-      savesFromHomeController.text = prefs.getString('savesFromHome') ?? '2';
-      savesFromHashtagsController.text =
-          prefs.getString('savesFromHashtags') ?? '1';
-      savesFromProfileController.text =
-          prefs.getString('savesFromProfile') ?? '0';
-      viewRateController.text = prefs.getString('viewRate') ?? '98.7%';
-      typicalViewRateController.text =
-          prefs.getString('typicalViewRate') ?? '--';
-      watchTimeController2.text = prefs.getString('watchTime2') ?? '3h 37m 42s';
-      averageWatchTimeController.text =
-          prefs.getString('averageWatchTime') ?? '20 sec';
-      overviewTitleController.text =
-          prefs.getString('overviewTitle') ?? 'Overview';
-      viewsTitleController.text = prefs.getString('viewsTitle') ?? 'Views';
-      topSourcesTitleController.text =
-          prefs.getString('topSourcesTitle') ?? 'Top sources of views';
-      retentionTitleController.text =
-          prefs.getString('retentionTitle') ?? 'Retention';
-      interactionsTitleController.text =
-          prefs.getString('interactionsTitle') ?? 'Interactions';
-      profileActivityTitleController.text =
-          prefs.getString('profileActivityTitle') ?? 'Profile activity';
-      audienceTitleController.text =
-          prefs.getString('audienceTitle') ?? 'Audience';
-      age25to34Controller.text = prefs.getString('age25to34') ?? '45.1%';
-      age18to24Controller.text = prefs.getString('age18to24') ?? '23.9%';
-      age35to44Controller.text = prefs.getString('age35to44') ?? '17.0%';
-      age45to54Controller.text = prefs.getString('age45to54') ?? '6.7%';
-      age13to17Controller.text = prefs.getString('age13to17') ?? '3.9%';
-      age55to64Controller.text = prefs.getString('age55to64') ?? '2.2%';
-      age65plusController.text = prefs.getString('age65plus') ?? '1.1%';
-      countryUSController.text = prefs.getString('countryUS') ?? '45.2%';
-      countryUKController.text = prefs.getString('countryUK') ?? '25.8%';
-      countryCanadaController.text =
-          prefs.getString('countryCanada') ?? '15.6%';
-      countryAustraliaController.text =
-          prefs.getString('countryAustralia') ?? '8.4%';
-      countryGermanyController.text =
-          prefs.getString('countryGermany') ?? '5.0%';
-      totalInteractionsController.text =
-          prefs.getString('totalInteractions') ?? '71 Interactions';
-      interactionsFollowersPercentController.text =
-          prefs.getString('interactionsFollowersPercent') ?? '5.7%';
-      interactionsNonFollowersPercentController.text =
-          prefs.getString('interactionsNonFollowersPercent') ?? '94.3%';
-      followsController.text = prefs.getString('follows') ?? 'Follows: 1';
-      genderMenController.text = prefs.getString('genderMen') ?? '78.4%';
-      genderWomenController.text = prefs.getString('genderWomen') ?? '21.6%';
-
-      // Load image data
-      final savedImageUrl = prefs.getString('reelThumbnailUrl');
-      final savedCaption = prefs.getString('reelCaption');
-
-      if (savedImageUrl != null) {
-        setState(() {
-          reelThumbnailUrl = savedImageUrl;
-          reelCaption = savedCaption;
-        });
-      }
-    }
+    // Set demo data
+    _setDemoData();
+    // Mark as not first time anymore
+    await prefs.setBool('isFirstTime', false);
   }
 
   @override
   void initState() {
     super.initState();
+
     _loadUserData();
+
+    // Set loading to false immediately
+    setState(() {
+      isLoading = false;
+    });
 
     // Add listeners to controllers that need to trigger rebuilds
     profileActivityController.addListener(() {
@@ -780,12 +836,12 @@ class _ReelInsightsPageState extends State<ReelInsightsPage> {
                 width:
                     iconPath.contains('comment.png') ||
                         iconPath.contains('save.png')
-                    ? 22
+                    ? 20
                     : 18,
                 height:
                     iconPath.contains('comment.png') ||
                         iconPath.contains('save.png')
-                    ? 22
+                    ? 20
                     : 18,
                 color: Colors.white,
               ),
@@ -1353,6 +1409,130 @@ class _ReelInsightsPageState extends State<ReelInsightsPage> {
     );
   }
 
+  Widget _buildSkeletonLoading() {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0D0F14),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Header skeleton
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children: [
+                  Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF2E3337),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Container(
+                    width: 100,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF2E3337),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    width: 50,
+                    height: 28,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF2E3337),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Main content skeleton
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    // Video thumbnail skeleton
+                    Center(
+                      child: Container(
+                        width: 100,
+                        height: 160,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF2E3337),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Title skeleton
+                    Center(
+                      child: Container(
+                        width: 200,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF2E3337),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+
+                    // Date skeleton
+                    Center(
+                      child: Container(
+                        width: 150,
+                        height: 16,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF2E3337),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Engagement metrics skeleton
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(
+                        4,
+                        (index) => Column(
+                          children: [
+                            Container(
+                              width: 24,
+                              height: 24,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF2E3337),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Container(
+                              width: 40,
+                              height: 14,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF2E3337),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1365,7 +1545,16 @@ class _ReelInsightsPageState extends State<ReelInsightsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 children: [
-                  Icon(Icons.arrow_back_ios, color: Colors.white, size: 20),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
                   const SizedBox(width: 16),
                   GestureDetector(
                     onTap: _handleReelInsightsTap,
@@ -1898,14 +2087,68 @@ class _ReelInsightsPageState extends State<ReelInsightsPage> {
                     const SizedBox(height: 24),
 
                     // Accounts Reached
-                    Text(
-                      'Accounts reached: 18',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'SF Pro Display',
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          'Accounts reached: ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'SF Pro Display',
+                          ),
+                        ),
+                        if (isEditingEnabled)
+                          Container(
+                            width: 80,
+                            child: TextField(
+                              controller: accountsReachedController,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'SF Pro Display',
+                              ),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                  borderSide: BorderSide(
+                                    color: Colors.white,
+                                    width: 1,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                  borderSide: BorderSide(
+                                    color: Colors.white,
+                                    width: 1,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                    width: 2,
+                                  ),
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
+                              ),
+                            ),
+                          )
+                        else
+                          Text(
+                            accountsReachedController.text,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'SF Pro Display',
+                            ),
+                          ),
+                      ],
                     ),
 
                     const SizedBox(height: 32),
@@ -2043,7 +2286,9 @@ class _ReelInsightsPageState extends State<ReelInsightsPage> {
                         height: 150,
                         child: CustomPaint(
                           size: Size(double.infinity, 150),
-                          painter: RetentionGraphPainter(),
+                          painter: RetentionGraphPainter(
+                            duration: _extractDuration(reelDateController.text),
+                          ),
                         ),
                       ),
 
@@ -2975,6 +3220,10 @@ class DonutChartPainter extends CustomPainter {
 }
 
 class RetentionGraphPainter extends CustomPainter {
+  final String duration;
+
+  RetentionGraphPainter({this.duration = '0:33'});
+
   @override
   void paint(Canvas canvas, Size size) {
     // Draw light horizontal grid lines
@@ -3080,7 +3329,7 @@ class RetentionGraphPainter extends CustomPainter {
     textPainter4.layout();
     textPainter4.paint(canvas, Offset(25, size.height - 5));
 
-    final textSpan5 = TextSpan(text: '0:32', style: textStyle);
+    final textSpan5 = TextSpan(text: duration, style: textStyle);
     final textPainter5 = TextPainter(
       text: textSpan5,
       textDirection: TextDirection.ltr,
