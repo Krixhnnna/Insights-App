@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'professional_dashboard.dart';
+import 'profile_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,12 +16,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Insights',
+      title: 'Insights App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: HomePage(),
+      home: ProfilePage(),
     );
   }
 }

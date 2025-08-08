@@ -4,6 +4,8 @@ import 'views_page.dart';
 import 'cache_service.dart';
 
 class ProfessionalDashboardPage extends StatefulWidget {
+  const ProfessionalDashboardPage({super.key});
+
   @override
   _ProfessionalDashboardPageState createState() =>
       _ProfessionalDashboardPageState();
@@ -47,12 +49,15 @@ class _ProfessionalDashboardPageState extends State<ProfessionalDashboardPage> {
   void _applyCachedData(Map<String, dynamic> data) {
     if (data['totalViews'] != null) viewsController.text = data['totalViews'];
     if (data['date'] != null) dateController.text = data['date'];
-    if (data['interactions'] != null)
+    if (data['interactions'] != null) {
       interactionsController.text = data['interactions'];
-    if (data['newFollowers'] != null)
+    }
+    if (data['newFollowers'] != null) {
       newFollowersController.text = data['newFollowers'];
-    if (data['contentShared'] != null)
+    }
+    if (data['contentShared'] != null) {
       contentSharedController.text = data['contentShared'];
+    }
   }
 
   Future<void> _saveToCache() async {
@@ -201,7 +206,7 @@ class _ProfessionalDashboardPageState extends State<ProfessionalDashboardPage> {
                         ),
                         const Spacer(),
                         isEditingEnabled
-                            ? Container(
+                            ? SizedBox(
                                 width: 100,
                                 child: TextField(
                                   controller: dateController,
@@ -493,7 +498,7 @@ class _ProfessionalDashboardPageState extends State<ProfessionalDashboardPage> {
             const SizedBox(width: 8),
           ],
           isEditingEnabled && controller != null
-              ? Container(
+              ? SizedBox(
                   width: 80,
                   child: TextField(
                     controller: controller,
