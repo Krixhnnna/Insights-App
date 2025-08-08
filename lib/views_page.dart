@@ -124,36 +124,49 @@ class _ViewsPageState extends State<ViewsPage> with TickerProviderStateMixin {
   }
 
   void _applyCachedData(Map<String, dynamic> data) {
-    if (data['totalViews'] != null)
+    if (data['totalViews'] != null) {
       totalViewsController.text = data['totalViews'];
+    }
     if (data['date'] != null) dateController.text = data['date'];
-    if (data['reelsPercent'] != null)
+    if (data['reelsPercent'] != null) {
       reelsPercentController.text = data['reelsPercent'];
-    if (data['storiesPercent'] != null)
+    }
+    if (data['storiesPercent'] != null) {
       storiesPercentController.text = data['storiesPercent'];
-    if (data['accountsReached'] != null)
+    }
+    if (data['accountsReached'] != null) {
       accountsReachedController.text = data['accountsReached'];
-    if (data['profileActivity'] != null)
+    }
+    if (data['profileActivity'] != null) {
       profileActivityController.text = data['profileActivity'];
-    if (data['profileActivityGrowth'] != null)
+    }
+    if (data['profileActivityGrowth'] != null) {
       profileActivityGrowthController.text = data['profileActivityGrowth'];
-    if (data['profileVisits'] != null)
+    }
+    if (data['profileVisits'] != null) {
       profileVisitsController.text = data['profileVisits'];
-    if (data['profileVisitsGrowth'] != null)
+    }
+    if (data['profileVisitsGrowth'] != null) {
       profileVisitsGrowthController.text = data['profileVisitsGrowth'];
-    if (data['externalLinks'] != null)
+    }
+    if (data['externalLinks'] != null) {
       externalLinksController.text = data['externalLinks'];
-    if (data['externalLinksGrowth'] != null)
+    }
+    if (data['externalLinksGrowth'] != null) {
       externalLinksGrowthController.text = data['externalLinksGrowth'];
+    }
     if (data['newYork'] != null) newYorkController.text = data['newYork'];
-    if (data['losAngeles'] != null)
+    if (data['losAngeles'] != null) {
       losAngelesController.text = data['losAngeles'];
+    }
     if (data['chicago'] != null) chicagoController.text = data['chicago'];
     if (data['houston'] != null) houstonController.text = data['houston'];
-    if (data['unitedStates'] != null)
+    if (data['unitedStates'] != null) {
       unitedStatesController.text = data['unitedStates'];
-    if (data['unitedKingdom'] != null)
+    }
+    if (data['unitedKingdom'] != null) {
       unitedKingdomController.text = data['unitedKingdom'];
+    }
     if (data['canada'] != null) canadaController.text = data['canada'];
     if (data['australia'] != null) australiaController.text = data['australia'];
     if (data['age25to34'] != null) age25to34Controller.text = data['age25to34'];
@@ -161,14 +174,18 @@ class _ViewsPageState extends State<ViewsPage> with TickerProviderStateMixin {
     if (data['age35to44'] != null) age35to44Controller.text = data['age35to44'];
     if (data['age45to54'] != null) age45to54Controller.text = data['age45to54'];
     if (data['genderMen'] != null) genderMenController.text = data['genderMen'];
-    if (data['genderWomen'] != null)
+    if (data['genderWomen'] != null) {
       genderWomenController.text = data['genderWomen'];
-    if (data['videoViews'] != null)
+    }
+    if (data['videoViews'] != null) {
       videoViewsController.text = data['videoViews'];
-    if (data['followersPercent'] != null)
+    }
+    if (data['followersPercent'] != null) {
       followersPercentController.text = data['followersPercent'];
-    if (data['nonFollowersPercent'] != null)
+    }
+    if (data['nonFollowersPercent'] != null) {
       nonFollowersPercentController.text = data['nonFollowersPercent'];
+    }
   }
 
   Future<void> _saveToCache() async {
@@ -436,7 +453,7 @@ class _ViewsPageState extends State<ViewsPage> with TickerProviderStateMixin {
                         ),
                         const Spacer(),
                         isEditingEnabled
-                            ? Container(
+                            ? SizedBox(
                                 width: 120,
                                 child: TextField(
                                   controller: dateController,
@@ -493,7 +510,7 @@ class _ViewsPageState extends State<ViewsPage> with TickerProviderStateMixin {
                       child: Column(
                         children: [
                           isEditingEnabled
-                              ? Container(
+                              ? SizedBox(
                                   width: 120,
                                   child: TextField(
                                     controller: totalViewsController,
@@ -560,14 +577,14 @@ class _ViewsPageState extends State<ViewsPage> with TickerProviderStateMixin {
 
                     // Donut Chart Section with Labels
                     Center(
-                      child: Container(
+                      child: SizedBox(
                         width: 320,
                         height: 80,
                         child: Stack(
                           children: [
                             // Chart
                             Center(
-                              child: Container(
+                              child: SizedBox(
                                 width: 80,
                                 height: 80,
                                 child: Stack(
@@ -626,7 +643,7 @@ class _ViewsPageState extends State<ViewsPage> with TickerProviderStateMixin {
                               child: Column(
                                 children: [
                                   isEditingEnabled
-                                      ? Container(
+                                      ? SizedBox(
                                           width: 60,
                                           child: TextField(
                                             controller:
@@ -782,7 +799,7 @@ class _ViewsPageState extends State<ViewsPage> with TickerProviderStateMixin {
                         ),
                         const Spacer(),
                         isEditingEnabled
-                            ? Container(
+                            ? SizedBox(
                                 width: 80,
                                 child: TextField(
                                   controller: accountsReachedController,
@@ -1288,7 +1305,7 @@ class _ViewsPageState extends State<ViewsPage> with TickerProviderStateMixin {
                                       children: [
                                         // Chart
                                         Center(
-                                          child: Container(
+                                          child: SizedBox(
                                             width: 80,
                                             height: 80,
                                             child: Stack(
@@ -1710,7 +1727,7 @@ class _ViewsPageState extends State<ViewsPage> with TickerProviderStateMixin {
               ),
               const SizedBox(width: 8),
               isEditingEnabled
-                  ? Container(
+                  ? SizedBox(
                       width: 60,
                       child: TextField(
                         controller: controller,
